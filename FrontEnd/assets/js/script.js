@@ -1,4 +1,8 @@
 
+
+
+// init des fonctions//
+
 init()
 
 function init(){
@@ -7,6 +11,8 @@ function init(){
     getCategories();
 }
 
+
+// récuperation des categories et création des buttons//
 
 function getCategories(){
 
@@ -20,12 +26,18 @@ function displayCategories(categories){
 
         let buttonCat = document.createElement("button");
         buttonCat.innerText = category.name
-        // buttonCat.setAttribute("data-category-id",category.id)
+        buttonCat.classList.add("btn")
         buttonCat.dataset.categoryId = category.id
         document.querySelector(".filters").append(buttonCat)
 
     }
+
+    const buttons = document.querySelectorAll(".filters .btn");
+    buttons.forEach(button => button.addEventListener("click", filterWorks));
 }
+
+
+// afficher les Images//
 
 function getWorks(){
 
@@ -54,4 +66,19 @@ function displayWorks(works){
         document.querySelector(".gallery").append(figure)
         
     }
+}
+
+// mise en marche des button//
+
+function filterWorks(event) {
+    const selectedCategoryId = event.target.dataset.categoryId;
+    const figures = document.querySelectorAll(".gallery figure");
+
+    figures.forEach(figure => {
+        if (selectedCategoryId === "" || figure.dataset.categoryId === selectedCategoryId) {
+            figure.style.display = ""; // 
+        } else {
+            figure.style.display = "none"; 
+        }
+    });
 }

@@ -126,7 +126,8 @@ li:hover {
 	margin-bottom: 1em;
 }
 
-.filters {
+.filters{
+	
 	display: flex;
 	justify-content: center;
 	gap: 12px;
@@ -144,6 +145,7 @@ li:hover {
 	font-size: 16px;
 	font-family: 'Syne';
 	font-weight: bold;
+	cursor: pointer;
 }
 
 .filters button:hover{
@@ -152,7 +154,8 @@ li:hover {
 	color: white;
 }
 
-.gallery {
+.gallery{
+
 	width: 100%;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
@@ -164,6 +167,17 @@ li:hover {
 	width: 100%;
 
 }
+
+.removeImg{
+	width: 0px;
+
+}
+
+.displayImg{
+
+	width: 100%;
+}
+
 #contact {
 	width: 50%;
 margin: auto;
