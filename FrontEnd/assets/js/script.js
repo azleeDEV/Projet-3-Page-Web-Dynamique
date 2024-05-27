@@ -25,10 +25,10 @@ function displayCategories(categories){
     for (let category of categories){
 
         let buttonCat = document.createElement("button");
-        buttonCat.innerText = category.name
-        buttonCat.classList.add("btn")
-        buttonCat.dataset.categoryId = category.id
-        document.querySelector(".filters").append(buttonCat)
+        buttonCat.innerText = category.name;
+        buttonCat.classList.add("btn");
+        buttonCat.dataset.categoryId = category.id;
+        document.querySelector(".filters").append(buttonCat);
 
     }
 
@@ -58,12 +58,12 @@ function displayWorks(works){
         let figCaption = document.createElement("figcaption");
         figCaption.innerText = work.title;
 
-        figure.append(img)
-        figure.append(figCaption)
+        figure.append(img);
+        figure.append(figCaption);
         
         console.log(figure);
         
-        document.querySelector(".gallery").append(figure)
+        document.querySelector(".gallery").append(figure);
         
     }
 }
@@ -73,12 +73,20 @@ function displayWorks(works){
 function filterWorks(event) {
     const selectedCategoryId = event.target.dataset.categoryId;
     const figures = document.querySelectorAll(".gallery figure");
+    
+    document.querySelectorAll(".filters .btn").forEach(btn =>{
+        btn.classList.remove("active","active-transition");
+    })
+
+    event.target.classList.add("active","active-transition");
 
     figures.forEach(figure => {
         if (selectedCategoryId === "" || figure.dataset.categoryId === selectedCategoryId) {
-            figure.style.display = ""; // 
+            // figure.style.display = "";
+            figure.classList.remove("display-transition");
         } else {
-            figure.style.display = "none"; 
+            // figure.style.display = "none";
+            figure.classList.add("display-transition"); 
         }
     });
 }

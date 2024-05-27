@@ -163,6 +163,46 @@ li:hover {
 	transition-duration: 0.7s;
 }
 
+.filters button.active{
+
+	background-color: #1D6154;
+	color: white;
+}
+
+@keyframes amjed {
+
+	0% {
+		transform: translateY(0px);
+	}
+
+	50% {
+		transform: translateY(-10px);
+	}
+
+	100% {
+		transform: translateY(0px);
+	}
+}
+
+@keyframes anim {
+	0% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+		display: none;
+	}
+}
+
+.active-transition{
+	animation: amjed 0.3s ease-in-out forwards;
+}
+
+figure.display-transition {
+	animation: anim 0.2s ease-in-out forwards;
+}
+
 .gallery{
 
 	width: 100%;
