@@ -9,6 +9,7 @@ function init(){
     
     getWorks();
     getCategories();
+    loadAdminMode();
 }
 
 
@@ -89,4 +90,68 @@ function filterWorks(event) {
             figure.classList.add("display-transition"); 
         }
     });
+}
+
+function loadAdminMode(){
+
+    if(localStorage.token){
+        displayBandeau()
+        displayEdit()
+    }
+
+}
+
+// afficher le bandeau du mode edit
+
+function displayBandeau(){
+
+    let bandeau = document.createElement("div")
+    bandeau.setAttribute("id","adminBandeau")
+    let img = document.createElement("img")
+    img.setAttribute("src","assets/icons/pen.svg.svg");
+    img.setAttribute("alt","logo edit");
+    let span = document.createElement("span")
+    span.innerText = "Mode édition"
+    bandeau.append(img)
+    bandeau.append(span)
+    document.querySelector("body").prepend(bandeau)   
+}
+
+// afficher le boutton edit
+
+function displayEdit(){
+
+    let adminModif = document.createElement("div")
+    adminModif.setAttribute("id","adminModif")
+    let img = document.createElement("img")
+    img.setAttribute("src","assets/icons/penBlack.svg");
+    img.setAttribute("alt","logo edit");
+    let span = document.createElement("span")
+    span.innerHTML = "<a>modifier</a>";
+    span.setAttribute("id","myBtn") 
+    adminModif.append(img)
+    adminModif.append(span)
+    document.querySelector("#portfolio h2").prepend(adminModif)
+
+}
+
+// faire apparaitre les modal
+
+const modal = document.getElementById('myModal');
+const btn = document.getElementById("myBtn");
+const span = document.getElementsByClassName("close")[0];
+
+
+btn.onclick = function () {
+    modal.style.display = "block";
+}
+
+span.onclick = function () {
+    modal.style.display = "none";
+}
+
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
 }
