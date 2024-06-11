@@ -23,18 +23,24 @@ function getCategories(){
 }
 
 function displayCategories(categories){
-    for (let category of categories){
 
-        let buttonCat = document.createElement("button");
-        buttonCat.innerText = category.name;
-        buttonCat.classList.add("btn");
-        buttonCat.dataset.categoryId = category.id;
-        document.querySelector(".filters").append(buttonCat);
+    if(!localStorage.token){
+        for (let category of categories){
 
+            let buttonCat = document.createElement("button");
+            buttonCat.innerText = category.name;
+            buttonCat.classList.add("btn");
+            buttonCat.dataset.categoryId = category.id;
+            document.querySelector(".filters").append(buttonCat);
+
+        }
+
+        const buttons = document.querySelectorAll(".filters .btn");
+        buttons.forEach(button => button.addEventListener("click", filterWorks));
     }
-
-    const buttons = document.querySelectorAll(".filters .btn");
-    buttons.forEach(button => button.addEventListener("click", filterWorks));
+    else{
+        document.querySelector('.filters').style.display= "none"
+    }
 }
 
 
@@ -133,18 +139,19 @@ function displayEdit(){
     adminModif.append(span)
     document.querySelector("#portfolio h2").prepend(adminModif)
 
+
+    const btn = document.getElementById("myBtn");
+    btn.addEventListener("click", function () {
+        modal.style.display = "block";
+        loadWorksInModal();
+    });
+
 }
 
 // faire apparaitre les modal
 
 const modal = document.getElementById('myModal');
-const btn = document.getElementById("myBtn");
 const span = document.getElementsByClassName("close")[0];
-
-
-btn.onclick = function () {
-    modal.style.display = "block";
-}
 
 span.onclick = function () {
     modal.style.display = "none";
@@ -154,4 +161,66 @@ window.onclick = function (event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }
+}
+
+
+// afficher les figure dans la modal
+
+
+function loadWorksInModal() {
+    fetch("http://localhost:5678/api/works")
+    .then(result => result.json())
+    .then(works => {
+        const modalImgContainer = document.querySelector(".modalImg");
+        modalImgContainer.innerHTML = "";  
+
+        for (let work of works) {
+
+            let figure = document.createElement("figure");
+            
+            let img = document.createElement("img");
+            img.setAttribute("src",work.imageUrl);
+            img.setAttribute("alt",work.title);
+
+            let deleteImg = document.createElement("img");
+            deleteImg.setAttribute("src","assets/icons/trash-can-solid.svg");
+            deleteImg.setAttribute("alt","logo edit");
+            deleteImg.dataset.categoryId = work.categoryId
+            deleteImg.dataset.workId = work.id
+            deleteImg.addEventListener("click", deleteWork);
+
+            figure.append(img);
+            figure.append(deleteImg);
+            console.log(figure);
+
+            modalImgContainer.append(figure);
+
+        }
+    });
+}
+
+function deleteWork(event) {
+    const workId = event.target.dataset.workId;
+    console.log(workId);
+
+    fetch(`http://localhost:5678/api/works/${workId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.token}`  // 
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            modal.style.display = "none";
+            document.querySelector(".gallery").innerHTML=""  
+            getWorks() 
+        } else {
+            alert("Erreur lors de la suppression de la photo.");
+        }
+    })
+    .catch(error => {
+        console.error("Erreur:", error);
+        alert("Erreur lors de la suppression de la photo.");
+    });
 }

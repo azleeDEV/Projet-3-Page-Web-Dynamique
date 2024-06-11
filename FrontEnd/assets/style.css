@@ -105,20 +105,21 @@ body {
     background-color: #fefefe;
     margin: 15% auto;
     border: 1px solid #888;
-    width: 500px;
-    height: 500px;
+    width: 520px;
+    height: 540px;
 	border-radius: 15px;
 	display: flex;
-	justify-content: space-between;
 	flex-direction: column;
+	align-items: center;
 }
 
 .modal-content h3{
 
-	font-size: 20px;
+	font-size: 23px;
+	font-weight: bold;
 	display: flex;
 	justify-content: center;
-	height: 25px;
+	padding-left: 162px;
 }
 
 .close {
@@ -127,13 +128,46 @@ body {
     float: right;
     cursor: pointer;
     font-size: 30px;
-    padding: 0 10px 0 0;
-	margin: 15px 0 0 15px;
     font-weight: bold;
-	height: 30px;
+	padding-left: 140px;
+}
+
+.modalTitle{
+
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-top: 23px;
+}
+.modalImg{
+
+	display: flex;
+    flex-wrap: wrap;
+	padding: 25px 50px;
+    gap: 5px;
+}
+.modalImg figure{
+	position: relative;
+    width: 19%;
+}
+
+.modalImg figure img:first-child {
+
+	position: relative;
+    width: 100%;
+}
+
+.modalImg figure img:last-child {
+
+	position: absolute;
+    top: 10PX;
+    right: 10px;
+	width: 14px;
+	cursor: pointer;
 }
 
 .addWork {
+
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
