@@ -7,6 +7,7 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 </head>
@@ -17,7 +18,7 @@
 		<ul>
 			<li><a href="index.html">projets</a></li>
 			<li><a href="#contact">contact</a></li>
-			<li><a href="login.html">login</a></li>
+			<li><a href="login.html" id="loginLogoutButton">login</a></li>
 			<li><img class="ig-logo" src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -42,13 +43,58 @@
 
 			<div class="modal-content">
 				<div class="modalTitle">
-					<h3>Galerie photo</h3><span class="close">&times;</span>
+					<h3 class="titleModal1">Galerie photo</h3><span class="close">&times;</span>
 				</div>
 				<div class="modalImg"></div>
-				<hr width="70%">
-				<button class="addWork">Ajouter une photo</button>
+				<button id="addFig" class="addWork">Ajouter une photo</button>
 			</div>
 		</div>
+
+
+		<div id="myModal2" class="modal">
+		<div class="modal-content2">
+
+		<div class="iconModal2">
+          <a href="#" id="retourEnArriere"><img src="assets/icons/Fleche.svg" class="fa-solid fa-arrow-left"></a>
+          <a href="#" id="fermer"><img src="assets/icons/Croix.svg" class="fa-solid fa-xmark"></a>
+        </div>
+
+        <form action="#" method="post">
+          <div class="modal-container ajouter">
+            <h3 id="titreModale">Ajout photo</h3>
+
+        	<div class="modale-nouvelle-photo">
+              <div class="photo-file">
+                <i class="fa-regular fa-image"></i>
+                <label for="avatar" class="photoAjouter">+ Ajouter photo</label>
+                <input type="file" id="avatar" name="imageUrl" accept="image/png, image/jpeg" required class="hidden-file-input">				
+                <p class="photo-size">jpg,png:4mo max</p>
+            	</div>
+
+        	</div>
+
+            <div class="modale-nouvelle-categorie">
+              <label for="titre">Titre</label>
+              <input type="text" name="title" id="titre" required>
+              <div class="selectCategorie">
+                <label for="categorie">Catégorie</label>
+                <select name="categoryId" id="categorie" required>
+					<option value="1">Objets</option>
+					<option value="2">Appartements</option>
+					<option value="3">Hotels & restaurants</option>
+				</select>	
+                <i class="fa-solid fa-chevron-down"></i>
+
+              </div>
+            </div>
+          </div>
+          <div>
+            <button id="btn-valider" class="modale-button" disabled>Valider</button>
+          </div>
+          <span class="erreur" style="color: red;"></span> <!-- Message d'erreur -->
+        </form>
+      </div>
+	</div> 	
 
 		<div class="filters"><button class="btn active" id="all" data-category-id="">Tous</button></div>
 		<div class="gallery"></div>

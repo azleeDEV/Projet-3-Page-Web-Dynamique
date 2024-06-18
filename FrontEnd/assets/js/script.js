@@ -103,6 +103,7 @@ function loadAdminMode(){
     if(localStorage.token){
         displayBandeau()
         displayEdit()
+        LogOut()
     }
 
 }
@@ -223,4 +224,121 @@ function deleteWork(event) {
         console.error("Erreur:", error);
         alert("Erreur lors de la suppression de la photo.");
     });
+}
+
+// ouvrir la deuxieme modal
+
+
+const modal2 = document.getElementById('myModal2');
+const addFig = document.getElementById('addFig');
+const x = document.querySelector('.fa-xmark');
+const arrow = document.querySelector('.fa-arrow-left')
+
+// faire fonctionner le X
+
+x.onclick = function () {
+    modal2.style.display = "none";
+}
+
+arrow.onclick = function () {
+    modal2.style.display = "none";
+    modal.style.display = "block";
+}
+
+// cliquer n'importe ou pour fermer la modal
+
+// window.onclick = function (event) {
+//     if (event.target == modal2) {
+//         modal2.style.display = "none";
+//     }
+// }
+
+// ouvrir la modal2 et ferme la modal1
+    addFig.addEventListener("click", function () {
+        modal2.style.display = "block";
+        modal.style.display = "none";
+        checkInputs()
+    });
+
+    // fonction pour modifier le lien login 
+    function LogOut() {
+
+        // on recupere le boutton avec son id
+        let loginLogoutButton = document.getElementById('loginLogoutButton');
+
+        // on modifie avec textContent
+        loginLogoutButton.textContent = 'logout';
+        loginLogoutButton.href = '#';
+
+        // on lui applique une fonction au click qui remove le token du localStorage
+        loginLogoutButton.addEventListener('click', function() {
+            localStorage.removeItem('token');
+            window.location.reload();
+        });
+    };
+
+    const contenuPhoto = document.querySelector(".photo-file");
+    const inputFile = document.getElementById("avatar");
+    const labelFile = document.querySelector(".photoAjouter");
+    const iconFile = document.querySelector(".fa-image");
+    const pFile = document.querySelector(".photo-size");
+
+    // Afficher l'image dans input file
+  function afficherImage() {
+    //  l'image qui se trouve sur mon pc
+    const image = this.files[0];
+    if (image.size < 4 * 1024 * 1024) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const imgUrl = reader.result;
+        const img = document.createElement("img");
+        img.src = imgUrl;
+        contenuPhoto.appendChild(img);
+      };
+      reader.readAsDataURL(image);
+
+      labelFile.style.opacity = "0";
+      iconFile.style.opacity = "0";
+      pFile.style.opacity = "0";
+    } else {
+      alert(
+        "Le fichier sélectionné est trop volumineux.La taille maximale est de 4 Mo."
+      );
+    }
+  }
+    inputFile.addEventListener("change", afficherImage); //  Ecouter le changement sur inputFile
+
+// mise en place pour envoyer les figure
+
+        // on recupere tout les champs du formulaires
+function checkInputs(){
+    const photo = document.getElementById("avatar");
+    const titre = document.getElementById("titre");
+    const categorie = document.getElementById("categorie");
+    const submitButton = document.getElementById("btn-valider");
+    const form = document.querySelector("#myModal2 form");
+    const errorMessage = document.querySelector(".erreur");   
+
+    // je lui ajoute un ecouteur d'evenement et fait un if else pour verifier les cahmps et afficher le boutton vert 
+    form.addEventListener("input", function () {
+        if (titre.value !== "" && categorie.value !== "" && photo.files.length > 0) {
+            submitButton.disabled = false;
+            submitButton.classList.add("btnValid");
+            submitButton.addEventListener("click",addProject)
+            errorMessage.textContent = "";
+        } else {
+            submitButton.classList.remove("btnValid");
+            submitButton.removeEventListener("click",addProject)
+            submitButton.disabled = true;
+            errorMessage.textContent = "Veuillez remplir tous les champs du formulaire.";
+        }
+    });
+}
+
+function addProject(event){
+    event.preventDefault()
+    console.log(event)
+    console.log(titre)
+    console.log(photo)
+    console.log(categorie)
 }
