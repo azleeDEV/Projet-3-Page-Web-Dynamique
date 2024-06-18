@@ -51,12 +51,16 @@ function getWorks(){
     fetch("http://localhost:5678/api/works")
     .then(result=>result.json())
     .then(works=>displayWorks(works))
+    .catch(error => console.error('Erreur lors de la récupération des travaux :', error));
 }
 
 function displayWorks(works){
 
+    // const gallery = document.querySelector(".gallery");
+    // gallery.innerHTML = "";
+    
     for(let work of works ){
-
+        
         let figure = document.createElement("figure");
         figure.dataset.categoryId = work.categoryId
         let img = document.createElement("img");
@@ -67,11 +71,12 @@ function displayWorks(works){
 
         figure.append(img);
         figure.append(figCaption);
-        
+        // gallery.append(figure);
+    
         console.log(figure);
-        
-        document.querySelector(".gallery").append(figure);
-        
+
+        document.querySelector(".gallery").append(figure); 
+
     }
 }
 
@@ -183,6 +188,7 @@ function loadWorksInModal() {
             img.setAttribute("src",work.imageUrl);
             img.setAttribute("alt",work.title);
 
+            let span = document.createElement("span");
             let deleteImg = document.createElement("img");
             deleteImg.setAttribute("src","assets/icons/trash-can-solid.svg");
             deleteImg.setAttribute("alt","logo edit");
@@ -190,8 +196,9 @@ function loadWorksInModal() {
             deleteImg.dataset.workId = work.id
             deleteImg.addEventListener("click", deleteWork);
 
+            span.appendChild(deleteImg)
             figure.append(img);
-            figure.append(deleteImg);
+            figure.append(span);
             console.log(figure);
 
             modalImgContainer.append(figure);
@@ -312,6 +319,7 @@ arrow.onclick = function () {
 
         // on recupere tout les champs du formulaires
 function checkInputs(){
+
     const photo = document.getElementById("avatar");
     const titre = document.getElementById("titre");
     const categorie = document.getElementById("categorie");
@@ -336,9 +344,66 @@ function checkInputs(){
 }
 
 function addProject(event){
-    event.preventDefault()
-    console.log(event)
-    console.log(titre)
-    console.log(photo)
-    console.log(categorie)
+
+    event.preventDefault();
+
+    const photo = document.getElementById("avatar").files[0]; 
+    const titre = document.getElementById("titre");
+    const categorie = document.getElementById("categorie");
+    const form = document.getElementById("resetForm");
+    const btnValidForm = document.getElementById("btn-valider");
+    const removePhoto = document.querySelector(".photo-file img")
+    
+    if (!photo || !titre || !categorie) {
+        alert("Veuillez remplir tous les champs du formulaire.");
+        return;
+    }
+
+    console.log(photo);
+    console.log(titre);
+    console.log(categorie);
+
+    const formData = new FormData();
+    
+    formData.append("title", titre.value);
+    formData.append("category", categorie.value);
+    formData.append("image", photo);
+
+    console.log(formData)
+
+    fetch('http://localhost:5678/api/works', {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${localStorage.token}`
+        },
+        body: formData,
+    })
+    .then((response => {
+        if (!response.ok) {
+            alert("impossible d'ajouter le nouveau projet");
+          }
+        if (response.ok){
+            alert("Le projet est ajouté avec succès");
+            console.log(response);
+            // getWorks();
+            return response.json();
+        } 
+    }))
+    .then(data => {
+        document.querySelector(".gallery").innerHTML ="";
+        getWorks();
+        form.reset();
+
+        removePhoto.style.display ="none";
+        labelFile.style.opacity = "100";
+        iconFile.style.opacity = "100";
+        pFile.style.opacity = "100";
+
+        btnValidForm.classList.remove("btnValid");
+        btnValidForm.disabled = true;
+        modal2.style.display = "none";
+    })
+    .catch(error => {
+        console.error("Erreur lors de l'ajout des travaux", error)
+    });
 }
