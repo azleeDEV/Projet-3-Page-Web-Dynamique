@@ -11,11 +11,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
         
         const email = document.getElementById('email').value;
         const password = document.getElementById('userPassword').value;
+
+        if (!validateEmail(email)) {
+            alert('Veuillez entrer une adresse e-mail valide.');
+            return;
+        }
         
         fetch('http://localhost:5678/api/users/login', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': getCSRFToken()
             },
             body: JSON.stringify({
                 email: email,
@@ -40,4 +46,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
             alert('Une erreur est survenue, veuillez réessayer plus tard.');
         });
     });
+
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+
+    function getCSRFToken() {
+        return 'your-csrf-token';
+    }
+
 });
